@@ -1,0 +1,15 @@
+pushover:
+  user:
+  token:
+
+config:
+  location: src/main/resources/config.json
+  writer:
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    com:
+      github:
+        davemeier82: DEBUG
