@@ -13,3 +13,8 @@ logging:
     com:
       github:
         davemeier82: DEBUG
+
+hivemq:
+  server:
+    host:
+    port:

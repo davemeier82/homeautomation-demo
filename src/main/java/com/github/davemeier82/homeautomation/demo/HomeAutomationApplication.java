@@ -25,6 +25,7 @@ import com.github.davemeier82.homeautomation.hivemq.HiveMqMqttClient;
 import com.github.davemeier82.homeautomation.shelly.ShellyMqttDeviceFactory;
 import com.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
 import com.github.davemeier82.homeautomation.spring.core.OnFirstEventMqttDeviceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -56,7 +57,11 @@ public class HomeAutomationApplication {
   }
 
   @Bean
-  MqttClient mqttClient(EventFactory eventFactory, EventPublisher eventPublisher) {
-    return new HiveMqMqttClient(eventFactory, eventPublisher);
+  MqttClient mqttClient(EventFactory eventFactory,
+                        EventPublisher eventPublisher,
+                        @Value("${hivemq.server.host}") String serverHost,
+                        @Value("${hivemq.server.port:1883}") int serverPort
+  ) {
+    return new HiveMqMqttClient(eventFactory, eventPublisher, serverHost, serverPort);
   }
 }
