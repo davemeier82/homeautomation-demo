@@ -60,8 +60,10 @@ public class HomeAutomationApplication {
   MqttClient mqttClient(EventFactory eventFactory,
                         EventPublisher eventPublisher,
                         @Value("${hivemq.server.host}") String serverHost,
-                        @Value("${hivemq.server.port:1883}") int serverPort
+                        @Value("${hivemq.server.port:1883}") int serverPort,
+                        @Value("${hivemq.server.username:#{null}}") String username,
+                        @Value("${hivemq.server.password:#{null}}") String password
   ) {
-    return new HiveMqMqttClient(eventFactory, eventPublisher, serverHost, serverPort);
+    return new HiveMqMqttClient(eventFactory, eventPublisher, serverHost, serverPort, username, password);
   }
 }
