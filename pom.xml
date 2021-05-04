@@ -92,6 +92,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.davemeier82.homeautomation</groupId>
+            <artifactId>homeautomation-zigbee2mqtt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-instar</artifactId>
         </dependency>
 
