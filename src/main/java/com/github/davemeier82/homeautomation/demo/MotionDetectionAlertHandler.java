@@ -18,12 +18,15 @@ package com.github.davemeier82.homeautomation.demo;
 
 import com.github.davemeier82.homeautomation.core.PushNotificationService;
 import com.github.davemeier82.homeautomation.spring.core.event.MotionDetectedSpringEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MotionDetectionAlertHandler {
 
+  private static final Logger log = LoggerFactory.getLogger(MotionDetectionAlertHandler.class);
   private final PushNotificationService pushNotificationService;
 
   public MotionDetectionAlertHandler(PushNotificationService pushNotificationService) {
@@ -32,6 +35,8 @@ public class MotionDetectionAlertHandler {
 
   @EventListener
   public void handleEvent(MotionDetectedSpringEvent event) {
-    pushNotificationService.sendTextMessage("Motion detected", "Motion detected");
+    String displayName = event.getSensor().getDevice().getDisplayName();
+    log.debug("Device '{}' detected motion", displayName);
+    pushNotificationService.sendTextMessage("Motion detected", "Motion detected by device: " + displayName);
   }
 }
