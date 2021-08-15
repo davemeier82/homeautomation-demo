@@ -1,6 +1,6 @@
 pushover:
-  user:
-  token:
+  user: ${PUSHOVER_USER}
+  token: ${PUSHOVER_TOKEN}
 
 config:
   location: src/main/resources/config.json
@@ -16,5 +16,5 @@ logging:
 
 hivemq:
   server:
-    host:
-    port:
+    host: ${HIVEMQ_SERVER_HOST}
+    port: ${HIVEMQ_SERVER_PORT}
