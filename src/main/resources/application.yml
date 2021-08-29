@@ -3,7 +3,7 @@ pushover:
   token: ${PUSHOVER_TOKEN}
 
 config:
-  location: src/main/resources/config.json
+  location: ${CONFIG_LOCATION}
   writer:
     enabled: true
 
