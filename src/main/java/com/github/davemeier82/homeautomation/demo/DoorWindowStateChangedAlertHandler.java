@@ -17,8 +17,7 @@
 package com.github.davemeier82.homeautomation.demo;
 
 import com.github.davemeier82.homeautomation.core.PushNotificationService;
-import com.github.davemeier82.homeautomation.spring.core.event.WindowClosedSpringEvent;
-import com.github.davemeier82.homeautomation.spring.core.event.WindowOpenedSpringEvent;
+import com.github.davemeier82.homeautomation.spring.core.event.WindowStateChangedSpringEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
@@ -35,16 +34,15 @@ public class DoorWindowStateChangedAlertHandler {
   }
 
   @EventListener
-  public void handleEvent(WindowOpenedSpringEvent event) {
+  public void handleEvent(WindowStateChangedSpringEvent event) {
     String displayName = event.getWindow().getDevice().getDisplayName();
-    log.debug("'{}' was opened", displayName);
-    pushNotificationService.sendTextMessage(displayName, displayName + " was opened");
+    if (event.isOpen().getValue()) {
+      log.debug("'{}' was opened", displayName);
+      pushNotificationService.sendTextMessage(displayName, displayName + " was opened");
+    } else {
+      log.debug("'{}' was closed", displayName);
+      pushNotificationService.sendTextMessage(displayName, displayName + " was closed");
+    }
   }
 
-  @EventListener
-  public void handleEvent(WindowClosedSpringEvent event) {
-    String displayName = event.getWindow().getDevice().getDisplayName();
-    log.debug("'{}' was closed", displayName);
-    pushNotificationService.sendTextMessage(displayName, displayName + " was closed");
-  }
 }
