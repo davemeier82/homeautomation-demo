@@ -70,10 +70,9 @@ public class HomeAutomationApplication {
 
   @Bean
   OnFirstEventMqttDeviceLoader onFirstEventMqttDeviceLoader(List<MqttDeviceFactory> mqttDeviceFactories,
-                                                            MqttClient mqttClient,
                                                             DeviceRegistry deviceRegistry
   ) {
-    return new OnFirstEventMqttDeviceLoader(mqttDeviceFactories, mqttClient, deviceRegistry);
+    return new OnFirstEventMqttDeviceLoader(mqttDeviceFactories, deviceRegistry);
   }
 
   @Bean
