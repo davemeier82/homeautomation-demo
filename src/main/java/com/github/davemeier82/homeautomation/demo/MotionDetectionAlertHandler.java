@@ -17,26 +17,43 @@
 package com.github.davemeier82.homeautomation.demo;
 
 import com.github.davemeier82.homeautomation.core.PushNotificationService;
+import com.github.davemeier82.homeautomation.core.device.DeviceId;
 import com.github.davemeier82.homeautomation.spring.core.event.MotionDetectedSpringEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.github.davemeier82.homeautomation.core.device.DeviceId.deviceIdFromDevice;
+
 @Component
 public class MotionDetectionAlertHandler {
-
   private static final Logger log = LoggerFactory.getLogger(MotionDetectionAlertHandler.class);
   private final PushNotificationService pushNotificationService;
+  private final ConcurrentHashMap<DeviceId, ZonedDateTime> lastNotificationSent = new ConcurrentHashMap<>();
+  private final Duration debounceTime;
 
-  public MotionDetectionAlertHandler(PushNotificationService pushNotificationService) {
+  public MotionDetectionAlertHandler(PushNotificationService pushNotificationService,
+                                     @Value("${motion-detection.alert.debounce-time:120s}") Duration debounceTime
+  ) {
     this.pushNotificationService = pushNotificationService;
+    this.debounceTime = debounceTime;
   }
 
   @EventListener
   public void handleEvent(MotionDetectedSpringEvent event) {
-    String displayName = event.getSensor().getDevice().getDisplayName();
-    log.debug("Device '{}' detected motion", displayName);
-    pushNotificationService.sendTextMessage("Motion detected", "Motion detected by device: " + displayName);
+    DeviceId deviceId = deviceIdFromDevice(event.getSensor().getDevice());
+    ZonedDateTime lastNotification = lastNotificationSent.get(deviceId);
+    if (lastNotification == null || Duration.between(lastNotification, ZonedDateTime.now()).compareTo(debounceTime) > 0) {
+      String displayName = event.getSensor().getDevice().getDisplayName();
+      log.debug("Device '{}' detected motion", displayName);
+      pushNotificationService.sendTextMessage("Motion detected", "Motion detected by device: " + displayName);
+      lastNotificationSent.put(deviceId, ZonedDateTime.now());
+    }
   }
 }
