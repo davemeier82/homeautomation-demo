@@ -18,3 +18,9 @@ hivemq:
   server:
     host: ${HIVEMQ_SERVER_HOST}
     port: ${HIVEMQ_SERVER_PORT}
+
+influxdb2:
+  url: ${INFLUXDB2_URL}
+  token: ${INFLUXDB2_TOKEN}
+  bucket: ${INFLUXDB2_BUCKET}
+  organization: ${INFLUXDB2_ORGANIZATION}

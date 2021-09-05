@@ -98,6 +98,10 @@
             <groupId>com.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-instar</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <artifactId>homeautomation-influxdb2</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
