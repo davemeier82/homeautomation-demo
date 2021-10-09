@@ -17,6 +17,9 @@
 package com.github.davemeier82.homeautomation.demo;
 
 import com.github.davemeier82.homeautomation.core.PushNotificationService;
+import com.github.davemeier82.homeautomation.core.device.Device;
+import com.github.davemeier82.homeautomation.core.event.RelayStateChangedEvent;
+import com.github.davemeier82.homeautomation.influxdb2.device.InfluxDb2PowerSensor;
 import com.github.davemeier82.homeautomation.spring.core.event.WindowStateChangedSpringEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +45,19 @@ public class DoorWindowStateChangedAlertHandler {
     } else {
       log.debug("'{}' was closed", displayName);
       pushNotificationService.sendTextMessage(displayName, displayName + " was closed");
+    }
+  }
+
+  @EventListener
+  public void handleEvent(RelayStateChangedEvent event) {
+    Device device = event.getRelay().getDevice();
+    if (InfluxDb2PowerSensor.TYPE.equals(device.getType())) {
+      String displayName = device.getDisplayName();
+      if (event.isOn().getValue()) {
+        pushNotificationService.sendTextMessage(displayName, displayName + " started");
+      } else {
+        pushNotificationService.sendTextMessage(displayName, displayName + " stopped");
+      }
     }
   }
 
