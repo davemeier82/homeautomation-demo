@@ -16,24 +16,26 @@
 
 package com.github.davemeier82.homeautomation.demo;
 
-import com.github.davemeier82.homeautomation.core.PushNotificationService;
 import com.github.davemeier82.homeautomation.core.device.Device;
 import com.github.davemeier82.homeautomation.core.event.RelayStateChangedEvent;
 import com.github.davemeier82.homeautomation.influxdb2.device.InfluxDb2PowerSensor;
 import com.github.davemeier82.homeautomation.spring.core.event.WindowStateChangedSpringEvent;
+import com.github.davemeier82.homeautomation.spring.core.pushnotification.PushNotificationServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(prefix = "push-notification", name = "enabled", havingValue = "true")
 public class DoorWindowStateChangedAlertHandler {
 
   private static final Logger log = LoggerFactory.getLogger(DoorWindowStateChangedAlertHandler.class);
-  private final PushNotificationService pushNotificationService;
+  private final PushNotificationServiceRegistry pushNotificationServiceRegistry;
 
-  public DoorWindowStateChangedAlertHandler(PushNotificationService pushNotificationService) {
-    this.pushNotificationService = pushNotificationService;
+  public DoorWindowStateChangedAlertHandler(PushNotificationServiceRegistry pushNotificationServiceRegistry) {
+    this.pushNotificationServiceRegistry = pushNotificationServiceRegistry;
   }
 
   @EventListener
@@ -41,10 +43,10 @@ public class DoorWindowStateChangedAlertHandler {
     String displayName = event.getWindow().getDevice().getDisplayName();
     if (event.isOpen().getValue()) {
       log.debug("'{}' was opened", displayName);
-      pushNotificationService.sendTextMessage(displayName, displayName + " was opened");
+      pushNotificationServiceRegistry.getAll().forEach(s -> s.sendTextMessage(displayName, displayName + " was opened"));
     } else {
       log.debug("'{}' was closed", displayName);
-      pushNotificationService.sendTextMessage(displayName, displayName + " was closed");
+      pushNotificationServiceRegistry.getAll().forEach(s -> s.sendTextMessage(displayName, displayName + " was closed"));
     }
   }
 
@@ -54,9 +56,9 @@ public class DoorWindowStateChangedAlertHandler {
     if (InfluxDb2PowerSensor.TYPE.equals(device.getType())) {
       String displayName = device.getDisplayName();
       if (event.isOn().getValue()) {
-        pushNotificationService.sendTextMessage(displayName, displayName + " started");
+        pushNotificationServiceRegistry.getAll().forEach(s -> s.sendTextMessage(displayName, displayName + " started"));
       } else {
-        pushNotificationService.sendTextMessage(displayName, displayName + " stopped");
+        pushNotificationServiceRegistry.getAll().forEach(s -> s.sendTextMessage(displayName, displayName + " stopped"));
       }
     }
   }

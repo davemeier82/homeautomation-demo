@@ -1,6 +1,10 @@
+push-notification.enabled: true
+
 pushover:
-  user: ${PUSHOVER_USER}
-  token: ${PUSHOVER_TOKEN}
+  enabled: true
+  credentials:
+    - user: ${PUSHOVER_USER}
+      token: ${PUSHOVER_TOKEN}
 
 config:
   location: ${CONFIG_LOCATION}
