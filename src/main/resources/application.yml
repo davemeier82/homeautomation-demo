@@ -1,4 +1,13 @@
-push-notification.enabled: true
+notification:
+  config:
+    location: ${PUSH_NOTIFICATION_CONFIG_LOCATION}
+  push:
+    enabled: true
+    default-sender:
+      enabled: true
+    translation:
+      properties:
+        defaultLocale: ${TRANSLATION_DEFAULT_LOCALE:en}
 
 pushover:
   enabled: true
@@ -6,10 +15,11 @@ pushover:
     - user: ${PUSHOVER_USER}
       token: ${PUSHOVER_TOKEN}
 
-config:
-  location: ${CONFIG_LOCATION}
-  writer:
-    enabled: true
+device:
+  config:
+    location: ${CONFIG_LOCATION}
+    writer:
+      enabled: true
 
 logging:
   level:
@@ -28,3 +38,4 @@ influxdb2:
   token: ${INFLUXDB2_TOKEN}
   bucket: ${INFLUXDB2_BUCKET}
   organization: ${INFLUXDB2_ORGANIZATION}
+
