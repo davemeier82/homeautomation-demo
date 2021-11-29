@@ -10,14 +10,21 @@ notification:
         defaultLocale: ${TRANSLATION_DEFAULT_LOCALE:en}
 
 pushover:
-  enabled: true
+  enabled: ${PUSHOVER_ENABLED:false}
   credentials:
-    - user: ${PUSHOVER_USER}
+    - id: ${PUSHOVER_ID}
+      user: ${PUSHOVER_USER}
       token: ${PUSHOVER_TOKEN}
+
+pushbullet:
+  enabled: ${PUSHBULLET_ENABLED:false}
+  credentials:
+    - id: ${PUSHBULLET_ID}
+      token: ${PUSHBULLET_TOKEN}
 
 device:
   config:
-    location: ${CONFIG_LOCATION}
+    location: ${DEVICE_CONFIG_LOCATION}
     writer:
       enabled: true
 
