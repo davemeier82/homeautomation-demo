@@ -46,3 +46,8 @@ influxdb2:
   bucket: ${INFLUXDB2_BUCKET}
   organization: ${INFLUXDB2_ORGANIZATION}
 
+light-controller:
+  enabled: ${LIGHT_CONTROLLER_ENABLED:false}
+  wardrobe-motion-sensor-id: ${WARDROBE_MOTION_SENSOR_ID}
+  wardrobe-light-id: ${WARDROBE_LIGHT_ID}
+  turn-off-delay: ${TURN_OFF_DELAY:5m}
