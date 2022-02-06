@@ -19,8 +19,10 @@ package com.github.davemeier82.homeautomation.demo;
 import com.github.davemeier82.homeautomation.core.device.Device;
 import com.github.davemeier82.homeautomation.core.device.DeviceId;
 import com.github.davemeier82.homeautomation.core.device.property.Relay;
+import com.github.davemeier82.homeautomation.core.event.DataWithTimestamp;
 import com.github.davemeier82.homeautomation.core.event.DevicePropertyEvent;
 import com.github.davemeier82.homeautomation.core.event.MotionDetectedEvent;
+import com.github.davemeier82.homeautomation.core.event.RelayStateChangedEvent;
 import com.github.davemeier82.homeautomation.shelly.device.Shelly1;
 import com.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
 import com.github.davemeier82.homeautomation.zigbee2mqtt.device.Zigbee2MqttDevice;
@@ -69,15 +71,19 @@ public class LightController {
   public void handleEvent(DevicePropertyEvent event) {
     DeviceId deviceId = deviceIdFromDevice(event.getDeviceProperty().getDevice());
     if (wardrobeMotionSensorId.equals(deviceId) && event instanceof MotionDetectedEvent motionDetectedEvent) {
-      scheduleWardrobeLightOff(motionDetectedEvent);
+      scheduleWardrobeLightOff(motionDetectedEvent.getEventTime().plus(turnOffDelay));
+    } else if (wardrobeLightId.equals(deviceId) && event instanceof RelayStateChangedEvent relayStateChangedEvent) {
+      DataWithTimestamp<Boolean> isOn = relayStateChangedEvent.isOn();
+      if (isOn.getValue()) {
+        scheduleWardrobeLightOff(isOn.getDateTime().plus(turnOffDelay));
+      }
     }
   }
 
-  private void scheduleWardrobeLightOff(MotionDetectedEvent motionDetectedEvent) {
+  private void scheduleWardrobeLightOff(ZonedDateTime turnOffTime) {
     if (turnOffLightTask != null) {
       turnOffLightTask.cancel(false);
     }
-    ZonedDateTime turnOffTime = motionDetectedEvent.getEventTime().plus(turnOffDelay);
     log.debug("schedule turn off for {} at {}", wardrobeLightId, turnOffTime);
     turnOffLightTask = taskScheduler.schedule(() -> {
       log.debug("turn off {}", wardrobeLightId);
