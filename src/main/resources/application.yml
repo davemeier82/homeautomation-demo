@@ -51,3 +51,8 @@ light-controller:
   wardrobe-motion-sensor-id: ${WARDROBE_MOTION_SENSOR_ID}
   wardrobe-light-id: ${WARDROBE_LIGHT_ID}
   turn-off-delay: ${TURN_OFF_DELAY:5m}
+
+allowedOrigins: ${ALLOWED_ORIGINS:null}
+allowedHeaders: ${ALLOWED_HEADERS:null}
+allowedMethods: ${ALLOWED_METHODS:GET,HEAD,POST}
+exposedHeaders: ${EXPOSED_HEADERS:null}
