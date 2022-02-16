@@ -30,11 +30,7 @@ import com.github.davemeier82.homeautomation.zigbee2mqtt.Zigbee2MqttDeviceFactor
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -90,24 +86,4 @@ public class HomeAutomationApplication {
     return new HiveMqMqttClient(eventFactory, eventPublisher, serverHost, serverPort, username, password);
   }
 
-  @Bean
-  public FilterRegistrationBean<CorsFilter> corsFilter(
-      @Value("${allowedOrigins:null}") List<String> allowedOrigins,
-      @Value("${allowedHeaders:null}") List<String> allowedHeaders,
-      @Value("${allowedMethods:GET,HEAD,POST}") List<String> allowedMethods,
-      @Value("${exposedHeaders:null}") List<String> exposedHeaders
-  ) {
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    CorsConfiguration config = new CorsConfiguration();
-    config.setAllowCredentials(true);
-    config.setAllowedOrigins(allowedOrigins);
-    config.setAllowedHeaders(allowedHeaders);
-    config.setAllowedMethods(allowedMethods);
-    config.setExposedHeaders(exposedHeaders);
-
-    source.registerCorsConfiguration("/**", config);
-    FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-    bean.setOrder(0);
-    return bean;
-  }
 }
