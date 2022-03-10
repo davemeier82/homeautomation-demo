@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.github.davemeier82.homeautomation.demo;
+package io.github.davemeier82.homeautomation.demo;
 
-import com.github.davemeier82.homeautomation.core.device.Device;
-import com.github.davemeier82.homeautomation.core.device.DeviceId;
-import com.github.davemeier82.homeautomation.core.device.property.Relay;
-import com.github.davemeier82.homeautomation.core.event.DataWithTimestamp;
-import com.github.davemeier82.homeautomation.core.event.DevicePropertyEvent;
-import com.github.davemeier82.homeautomation.core.event.MotionDetectedEvent;
-import com.github.davemeier82.homeautomation.core.event.RelayStateChangedEvent;
-import com.github.davemeier82.homeautomation.shelly.device.Shelly1;
-import com.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
-import com.github.davemeier82.homeautomation.zigbee2mqtt.device.Zigbee2MqttDevice;
+import io.github.davemeier82.homeautomation.core.device.Device;
+import io.github.davemeier82.homeautomation.core.device.DeviceId;
+import io.github.davemeier82.homeautomation.core.device.property.Relay;
+import io.github.davemeier82.homeautomation.core.event.DataWithTimestamp;
+import io.github.davemeier82.homeautomation.core.event.DevicePropertyEvent;
+import io.github.davemeier82.homeautomation.core.event.MotionDetectedEvent;
+import io.github.davemeier82.homeautomation.core.event.RelayStateChangedEvent;
+import io.github.davemeier82.homeautomation.shelly.device.Shelly1;
+import io.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
+import io.github.davemeier82.homeautomation.zigbee2mqtt.device.Zigbee2MqttDevice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +39,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
 
-import static com.github.davemeier82.homeautomation.core.device.DeviceId.deviceIdFromDevice;
+import static io.github.davemeier82.homeautomation.core.device.DeviceId.deviceIdFromDevice;
 
 @Component
 @ConditionalOnProperty(name = "light-controller.enabled", havingValue = "true")

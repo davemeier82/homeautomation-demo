@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.davemeier82.homeautomation.demo;
+package io.github.davemeier82.homeautomation.demo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.davemeier82.homeautomation.core.device.mqtt.MqttDeviceFactory;
-import com.github.davemeier82.homeautomation.core.event.EventPublisher;
-import com.github.davemeier82.homeautomation.core.event.factory.EventFactory;
-import com.github.davemeier82.homeautomation.core.mqtt.MqttClient;
-import com.github.davemeier82.homeautomation.hivemq.HiveMqMqttClient;
-import com.github.davemeier82.homeautomation.instar.InstarMqttDeviceFactory;
-import com.github.davemeier82.homeautomation.shelly.ShellyMqttDeviceFactory;
-import com.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
-import com.github.davemeier82.homeautomation.spring.core.OnFirstEventMqttDeviceLoader;
-import com.github.davemeier82.homeautomation.zigbee2mqtt.Zigbee2MqttDeviceFactory;
+import io.github.davemeier82.homeautomation.core.device.mqtt.MqttDeviceFactory;
+import io.github.davemeier82.homeautomation.core.event.EventPublisher;
+import io.github.davemeier82.homeautomation.core.event.factory.EventFactory;
+import io.github.davemeier82.homeautomation.core.mqtt.MqttClient;
+import io.github.davemeier82.homeautomation.hivemq.HiveMqMqttClient;
+import io.github.davemeier82.homeautomation.instar.InstarMqttDeviceFactory;
+import io.github.davemeier82.homeautomation.shelly.ShellyMqttDeviceFactory;
+import io.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
+import io.github.davemeier82.homeautomation.spring.core.OnFirstEventMqttDeviceLoader;
+import io.github.davemeier82.homeautomation.zigbee2mqtt.Zigbee2MqttDeviceFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

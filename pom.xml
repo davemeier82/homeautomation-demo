@@ -26,7 +26,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.github.davemeier82.homeautomation</groupId>
+    <groupId>io.github.davemeier82.homeautomation</groupId>
     <artifactId>homeautomation-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -64,7 +64,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.github.davemeier82.homeautomation</groupId>
+                <groupId>io.github.davemeier82.homeautomation</groupId>
                 <artifactId>homeautomation-bom</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
                 <scope>import</scope>
@@ -75,31 +75,31 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-spring-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-spring-rest</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-hivemq</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-shelly</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-zigbee2mqtt</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-instar</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.davemeier82.homeautomation</groupId>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-influxdb2</artifactId>
         </dependency>
 

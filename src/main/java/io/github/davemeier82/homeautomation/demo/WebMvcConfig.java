@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.davemeier82.homeautomation.demo;
+package io.github.davemeier82.homeautomation.demo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
