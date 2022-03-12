@@ -71,7 +71,9 @@ public class LightController {
   public void handleEvent(DevicePropertyEvent event) {
     DeviceId deviceId = deviceIdFromDevice(event.getDeviceProperty().getDevice());
     if (wardrobeMotionSensorId.equals(deviceId) && event instanceof MotionDetectedEvent motionDetectedEvent) {
-      scheduleWardrobeLightOff(motionDetectedEvent.getEventTime().plus(turnOffDelay));
+      if (motionDetectedEvent.motionDetected().getValue()) {
+        scheduleWardrobeLightOff(motionDetectedEvent.motionDetected().getDateTime().plus(turnOffDelay));
+      }
     } else if (wardrobeLightId.equals(deviceId) && event instanceof RelayStateChangedEvent relayStateChangedEvent) {
       DataWithTimestamp<Boolean> isOn = relayStateChangedEvent.isOn();
       if (isOn.getValue()) {
