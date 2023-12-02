@@ -26,6 +26,7 @@ import io.github.davemeier82.homeautomation.instar.InstarMqttDeviceFactory;
 import io.github.davemeier82.homeautomation.shelly.ShellyMqttDeviceFactory;
 import io.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
 import io.github.davemeier82.homeautomation.spring.core.OnFirstEventMqttDeviceLoader;
+import io.github.davemeier82.homeautomation.weewx.WeewxMqttDeviceFactory;
 import io.github.davemeier82.homeautomation.zigbee2mqtt.Zigbee2MqttDeviceFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -57,6 +58,15 @@ public class HomeAutomationApplication {
                                              ObjectMapper objectMapper
   ) {
     return new Zigbee2MqttDeviceFactory(eventPublisher, eventFactory, mqttClient, objectMapper);
+  }
+
+  @Bean
+  MqttDeviceFactory weewxMqttDeviceFactory(EventPublisher eventPublisher,
+                                           EventFactory eventFactory,
+                                           MqttClient mqttClient,
+                                           ObjectMapper objectMapper
+  ) {
+    return new WeewxMqttDeviceFactory(eventPublisher, eventFactory, mqttClient, objectMapper);
   }
 
   @Bean
