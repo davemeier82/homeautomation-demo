@@ -1,3 +1,5 @@
+spring.threads.virtual.enabled: true
+
 notification:
   config:
     location: ${PUSH_NOTIFICATION_CONFIG_LOCATION}
