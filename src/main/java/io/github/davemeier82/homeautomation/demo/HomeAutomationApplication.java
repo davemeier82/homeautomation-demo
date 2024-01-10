@@ -21,14 +21,12 @@ import io.github.davemeier82.homeautomation.core.device.mqtt.MqttDeviceFactory;
 import io.github.davemeier82.homeautomation.core.event.EventPublisher;
 import io.github.davemeier82.homeautomation.core.event.factory.EventFactory;
 import io.github.davemeier82.homeautomation.core.mqtt.MqttClient;
-import io.github.davemeier82.homeautomation.hivemq.HiveMqMqttClient;
 import io.github.davemeier82.homeautomation.instar.InstarMqttDeviceFactory;
 import io.github.davemeier82.homeautomation.shelly.ShellyMqttDeviceFactory;
 import io.github.davemeier82.homeautomation.spring.core.DeviceRegistry;
 import io.github.davemeier82.homeautomation.spring.core.OnFirstEventMqttDeviceLoader;
 import io.github.davemeier82.homeautomation.weewx.WeewxMqttDeviceFactory;
 import io.github.davemeier82.homeautomation.zigbee2mqtt.Zigbee2MqttDeviceFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -85,17 +83,6 @@ public class HomeAutomationApplication {
                                                             EventFactory eventFactory
   ) {
     return new OnFirstEventMqttDeviceLoader(mqttDeviceFactories, deviceRegistry, eventPublisher, eventFactory);
-  }
-
-  @Bean
-  MqttClient mqttClient(EventFactory eventFactory,
-                        EventPublisher eventPublisher,
-                        @Value("${hivemq.server.host}") String serverHost,
-                        @Value("${hivemq.server.port:1883}") int serverPort,
-                        @Value("${hivemq.server.username:#{null}}") String username,
-                        @Value("${hivemq.server.password:#{null}}") String password
-  ) {
-    return new HiveMqMqttClient(eventFactory, eventPublisher, serverHost, serverPort, username, password);
   }
 
 }
