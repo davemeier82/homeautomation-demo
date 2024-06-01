@@ -32,8 +32,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
   public WebMvcConfig(
       @Value("${allowedOrigins:null}") String[] allowedOrigins,
       @Value("${allowedHeaders:*}") String[] allowedHeaders,
-      @Value("${allowedMethods:GET,HEAD,POST,PUT}") String[] allowedMethods,
-      @Value("${exposedHeaders:null}") String[] exposedHeaders
+      @Value("${allowedMethods:*}") String[] allowedMethods,
+      @Value("${exposedHeaders:*}") String[] exposedHeaders
   ) {
     this.allowedOrigins = allowedOrigins;
     this.allowedHeaders = allowedHeaders;
@@ -44,7 +44,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins(allowedOrigins)
+            .allowedOriginPatterns(allowedOrigins)
         .allowedMethods(allowedMethods)
         .allowedHeaders(allowedHeaders)
         .exposedHeaders(exposedHeaders);

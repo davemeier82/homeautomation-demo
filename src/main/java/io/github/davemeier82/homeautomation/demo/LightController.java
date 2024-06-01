@@ -16,27 +16,25 @@
 
 package io.github.davemeier82.homeautomation.demo;
 
-import io.github.davemeier82.homeautomation.core.device.Device;
 import io.github.davemeier82.homeautomation.core.device.DeviceId;
-import io.github.davemeier82.homeautomation.core.device.property.Relay;
-import io.github.davemeier82.homeautomation.core.event.DataWithTimestamp;
+import io.github.davemeier82.homeautomation.core.device.property.DevicePropertyId;
 import io.github.davemeier82.homeautomation.core.event.DevicePropertyEvent;
 import io.github.davemeier82.homeautomation.core.event.MotionUpdatedEvent;
 import io.github.davemeier82.homeautomation.core.event.RelayStateChangedEvent;
-import io.github.davemeier82.homeautomation.core.repositories.DeviceRepository;
-import io.github.davemeier82.homeautomation.shelly.device.Shelly1;
-import io.github.davemeier82.homeautomation.zigbee2mqtt.device.Zigbee2MqttDevice;
+import io.github.davemeier82.homeautomation.shelly.device.ShellyDeviceType;
+import io.github.davemeier82.homeautomation.shelly.device.property.controller.ShellyRelayDevicePropertyController;
+import io.github.davemeier82.homeautomation.zigbee2mqtt.device.Zigbee2MqttDeviceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.time.OffsetDateTime;
 import java.util.concurrent.ScheduledFuture;
 
 @Component
@@ -47,36 +45,35 @@ public class LightController {
   private final ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
   private final DeviceId wardrobeMotionSensorId;
   private final DeviceId wardrobeLightId;
-  private final DeviceRepository deviceRepository;
   private final Duration turnOffDelay;
+  private final ShellyRelayDevicePropertyController shellyRelayDevicePropertyController;
   private ScheduledFuture<?> turnOffWardrobeLightTask = null;
 
-  public LightController(DeviceRepository deviceRepository,
-                         @Value("${light-controller.wardrobe-motion-sensor-id}") String wardrobeMotionSensorId,
+  public LightController(@Value("${light-controller.wardrobe-motion-sensor-id}") String wardrobeMotionSensorId,
                          @Value("${light-controller.wardrobe-light-id}") String wardrobeLightId,
-                         @Value("${light-controller.turn-off-delay}") Duration turnOffDelay
+                         @Value("${light-controller.turn-off-delay}") Duration turnOffDelay,
+                         @Lazy ShellyRelayDevicePropertyController shellyRelayDevicePropertyController
   ) {
-    this.deviceRepository = deviceRepository;
-    this.wardrobeMotionSensorId = new DeviceId(wardrobeMotionSensorId, Zigbee2MqttDevice.TYPE);
-    this.wardrobeLightId = new DeviceId(wardrobeLightId, Shelly1.TYPE);
+    this.wardrobeMotionSensorId = new DeviceId(wardrobeMotionSensorId, Zigbee2MqttDeviceType.ZIGBEE_2_MQTT);
+    this.wardrobeLightId = new DeviceId(wardrobeLightId, ShellyDeviceType.SHELLY_1);
+    this.shellyRelayDevicePropertyController = shellyRelayDevicePropertyController;
     log.debug("wardrobeLightId: {} wardrobeMotionSensorId: {}", wardrobeLightId, wardrobeMotionSensorId);
     this.turnOffDelay = turnOffDelay;
     taskScheduler.initialize();
   }
 
   @EventListener
-  public void handleEvent(DevicePropertyEvent event) {
+  public void handleEvent(DevicePropertyEvent<?> event) {
     DeviceId deviceId = event.getDevicePropertyId().deviceId();
     switch (event) {
       case MotionUpdatedEvent motionUpdatedEvent when wardrobeMotionSensorId.equals(deviceId) -> {
-        if (motionUpdatedEvent.motionDetected().getValue()) {
-          scheduleWardrobeLightOff(motionUpdatedEvent.motionDetected().getDateTime().plus(turnOffDelay));
+        if (motionUpdatedEvent.motionDetected()) {
+          scheduleWardrobeLightOff(motionUpdatedEvent.getNewTimestamp().plus(turnOffDelay));
         }
       }
       case RelayStateChangedEvent relayStateChangedEvent when wardrobeLightId.equals(deviceId) -> {
-        DataWithTimestamp<Boolean> isOn = relayStateChangedEvent.isOn();
-        if (isOn.getValue()) {
-          scheduleWardrobeLightOff(isOn.getDateTime().plus(turnOffDelay));
+        if (relayStateChangedEvent.isOn()) {
+          scheduleWardrobeLightOff(relayStateChangedEvent.getNewTimestamp().plus(turnOffDelay));
         }
       }
       default -> {
@@ -84,22 +81,14 @@ public class LightController {
     }
   }
 
-  private void scheduleWardrobeLightOff(ZonedDateTime turnOffTime) {
+  private void scheduleWardrobeLightOff(OffsetDateTime turnOffTime) {
     if (turnOffWardrobeLightTask != null) {
       turnOffWardrobeLightTask.cancel(false);
     }
     log.debug("schedule turn off for {} at {}", wardrobeLightId, turnOffTime);
     turnOffWardrobeLightTask = taskScheduler.schedule(() -> {
       log.debug("turn off {}", wardrobeLightId);
-      Optional<Device> light = deviceRepository.getByDeviceId(wardrobeLightId);
-      light.ifPresent(device -> {
-        Shelly1 shelly1 = (Shelly1) device;
-        shelly1.getDeviceProperties().stream()
-            .filter(deviceProperty -> deviceProperty instanceof Relay)
-            .map(deviceProperty -> (Relay) deviceProperty)
-            .findFirst()
-            .ifPresent(Relay::turnOff);
-      });
+      shellyRelayDevicePropertyController.turnOff(new DevicePropertyId(wardrobeLightId, "0"));
     }, turnOffTime.toInstant());
   }
 }
