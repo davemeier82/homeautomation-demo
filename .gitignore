@@ -2,3 +2,4 @@
 /src/main/resources/device-config.json
 /src/main/resources/notification-config.json
 /target/
+*.iml
