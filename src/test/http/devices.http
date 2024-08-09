@@ -1,0 +1,101 @@
+### get devices
+GET {{host}}/api/v1/devices
+Accept: application/json
+
+### get device by id
+GET {{host}}/api/v1/devices/shelly25-ABC123
+Accept: application/json
+
+### update device
+PUT {{host}}/api/v1/devices/shelly25-ABC123
+Content-Type: application/json
+
+{
+"type": "shelly25",
+"id": "ABC123",
+"displayName": "Bedroom Window Blind",
+"properties": [
+{
+"id": "0",
+"type": "Roller",
+"displayName": "Bedroom Window Blind: State"
+}
+],
+"customIdentifiers": {
+"appliance": "shutter",
+"label": "Bedroom",
+"floor": "1st Floor"
+}
+}
+
+### switch light
+PUT {{host}}/api/v1/devices/shelly1-mini-gen3-123456789012/properties/0/values/RelayState
+Content-Type: application/json
+
+{
+"value": true
+}
+
+
+### add device
+POST {{host}}/api/v1/devices
+Content-Type: application/json
+
+{
+"type": "shelly25",
+"id": "AAAAAA",
+"displayName": "testDevice"
+}
+
+### update device
+PUT {{host}}/api/v1/devices/shelly25-AAAAAA
+Content-Type: application/json
+
+{
+"type": "shelly25",
+"id": "AAAAAA",
+"displayName": "testDevice2"
+}
+
+### delete device by id
+DELETE {{host}}/api/v1/devices/sshelly25-AAAAAA
+Content-Type: application/json
+
+### add influx db device
+POST {{host}}/api/v1/devices
+Content-Type: application/json
+
+{
+"type": "influxdb2-power",
+"displayName": "Washingmaschine",
+"id": "1",
+"parameters": {
+"version": "1.0.0",
+"query": "from(bucket: \"iotawatt\") |> range(start: -1m) |> filter(fn: (r) => r[\"_measurement\"] == \"waschen_B\") |> filter(fn: (r) => r[\"_field\"] == \"value\")|> aggregateWindow(every: 15s, fn: max, createEmpty: false) |> yield(name: \"max\")",
+"updateCronExpression": "0 * * * * *",
+"offThreshold": "2.0",
+"onThreshold": "5.0"
+}
+}
+
+### add device property
+POST {{host}}/api/v1/devices/shelly25-AAAAAA/properties
+Content-Type: application/json
+
+{
+"id": "0",
+"type": "Relay",
+"displayName": "aaa"
+}
+
+### add device property
+PUT {{host}}/api/v1/devices/shelly25-AAAAAA/properties/0
+Content-Type: application/json
+
+{
+"type": "Relay",
+"displayName": "bbb"
+}
+
+### delete device property
+DELETE {{host}}/api/v1/devices/shelly25-AAAAAA/properties/0

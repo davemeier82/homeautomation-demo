@@ -99,10 +99,10 @@
             <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-instar</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.davemeier82.homeautomation</groupId>
-            <artifactId>homeautomation-influxdb2</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>io.github.davemeier82.homeautomation</groupId>-->
+        <!--            <artifactId>homeautomation-influxdb2</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-weewx</artifactId>
