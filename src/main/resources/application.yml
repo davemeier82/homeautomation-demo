@@ -12,30 +12,6 @@ spring:
       hibernate:
         globally_quoted_identifiers: true
 
-notification:
-  config:
-    location: ${PUSH_NOTIFICATION_CONFIG_LOCATION}
-  push:
-    enabled: true
-    default-sender:
-      enabled: true
-    translation:
-      properties:
-        defaultLocale: ${TRANSLATION_DEFAULT_LOCALE:en}
-
-pushover:
-  enabled: ${PUSHOVER_ENABLED:false}
-  credentials:
-    - id: ${PUSHOVER_ID}
-      user: ${PUSHOVER_USER}
-      token: ${PUSHOVER_TOKEN}
-
-pushbullet:
-  enabled: ${PUSHBULLET_ENABLED:false}
-  credentials:
-    - id: ${PUSHBULLET_ID}
-      token: ${PUSHBULLET_TOKEN}
-
 logging:
   level:
     root: INFO
@@ -43,16 +19,40 @@ logging:
       github:
         davemeier82: DEBUG
 
-hivemq:
-  server:
-    host: ${HIVEMQ_SERVER_HOST}
-    port: ${HIVEMQ_SERVER_PORT}
+homeautomation:
+  spring-core:
+    notification:
+      push:
+        enabled: true
+        default-sender:
+          enabled: true
+        translation:
+          properties:
+            defaultLocale: ${TRANSLATION_DEFAULT_LOCALE:en}
 
-influxdb2:
-  url: ${INFLUXDB2_URL}
-  token: ${INFLUXDB2_TOKEN}
-  bucket: ${INFLUXDB2_BUCKET}
-  organization: ${INFLUXDB2_ORGANIZATION}
+        pushover:
+          enabled: ${PUSHOVER_ENABLED:false}
+          credentials:
+            - id: ${PUSHOVER_ID}
+              user: ${PUSHOVER_USER}
+              token: ${PUSHOVER_TOKEN}
+
+        pushbullet:
+          enabled: ${PUSHBULLET_ENABLED:false}
+          credentials:
+            - id: ${PUSHBULLET_ID}
+              token: ${PUSHBULLET_TOKEN}
+
+  hivemq:
+    server:
+      host: ${HIVEMQ_SERVER_HOST}
+      port: ${HIVEMQ_SERVER_PORT}
+
+  influxdb2:
+    url: ${INFLUXDB2_URL}
+    token: ${INFLUXDB2_TOKEN}
+    bucket: ${INFLUXDB2_BUCKET}
+    organization: ${INFLUXDB2_ORGANIZATION}
 
 light-controller:
   enabled: ${LIGHT_CONTROLLER_ENABLED:false}
@@ -64,3 +64,5 @@ allowedOrigins: ${ALLOWED_ORIGINS:null}
 allowedHeaders: ${ALLOWED_HEADERS:*}
 allowedMethods: ${ALLOWED_METHODS:GET,HEAD,POST,PUT}
 exposedHeaders: ${EXPOSED_HEADERS:null}
+
+
