@@ -59,7 +59,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <homeautomation-bom.version>0.6.0</homeautomation-bom.version>
+        <homeautomation-bom.version>0.6.2</homeautomation-bom.version>
     </properties>
 
     <dependencyManagement>
