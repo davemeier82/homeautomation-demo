@@ -36,16 +36,16 @@ Add the following bom to the dependency management:
 
 The framework provides different extensions that are explained in the corresponding README.ms files.
 
-| Extension   | Description                                                         | README.md                                                                                      |
-|-------------|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| spring-core | This is the main extension used for the Spring Boot integration     | [Readme](https://github.com/davemeier82/homeautomation-spring-core/blob/main/README.md)        |
-| spring-rest | This extension adds REST endpoints for management and configuration | [Readme](https://github.com/davemeier82/homeautomation-spring-rest/blob/main/README.md)        |
-| hivemq      | hivemq mqtt client extension                                        | [Readme](https://github.com/davemeier82/homeautomation-spring-hivemq/blob/main/README.md)      |
-| shelly      | Extension for Shelly.cloud devices                                  | [Readme](https://github.com/davemeier82/homeautomation-spring-shelly/blob/main/README.md)      |
-| zigbee2mqtt | Extension for Zigbee2mqtt devices                                   | [Readme](https://github.com/davemeier82/homeautomation-spring-zigbee2mqtt/blob/main/README.md) |
-| instar      | Extension for Instar cameras                                        | [Readme](https://github.com/davemeier82/homeautomation-spring-instar/blob/main/README.md)      |
-| weewx       | Extension for Weewex weather stations                               | [Readme](https://github.com/davemeier82/homeautomation-spring-weewx/blob/main/README.md)       |
-| influxdb2   | Extension for InfluxDB 2 database integration                       | [Readme](https://github.com/davemeier82/homeautomation-spring-influxdb2/blob/main/README.md)   |
+| Extension   | Description                                                         | README.md                                                                               |
+|-------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| spring-core | This is the main extension used for the Spring Boot integration     | [Readme](https://github.com/davemeier82/homeautomation-spring-core/blob/main/README.md) |
+| spring-rest | This extension adds REST endpoints for management and configuration | [Readme](https://github.com/davemeier82/homeautomation-spring-rest/blob/main/README.md) |
+| hivemq      | hivemq mqtt client extension                                        | [Readme](https://github.com/davemeier82/homeautomation-hivemq/blob/main/README.md)      |
+| shelly      | Extension for Shelly.cloud devices                                  | [Readme](https://github.com/davemeier82/homeautomation-shelly/blob/main/README.md)      |
+| zigbee2mqtt | Extension for Zigbee2mqtt devices                                   | [Readme](https://github.com/davemeier82/homeautomation-zigbee2mqtt/blob/main/README.md) |
+| instar      | Extension for Instar cameras                                        | [Readme](https://github.com/davemeier82/homeautomation-instar/blob/main/README.md)      |
+| weewx       | Extension for Weewex weather stations                               | [Readme](https://github.com/davemeier82/homeautomation-weewx/blob/main/README.md)       |
+| influxdb2   | Extension for InfluxDB 2 database integration                       | [Readme](https://github.com/davemeier82/homeautomation-influxdb2/blob/main/README.md)   |
 
 ## Events
 
