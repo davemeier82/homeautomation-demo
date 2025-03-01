@@ -1,5 +1,16 @@
 # homeautomation-demo
 
+<!-- TOC -->
+
+* [homeautomation-demo](#homeautomation-demo)
+    * [Introduction](#introduction)
+        * [Dependency management](#dependency-management)
+    * [Extensions](#extensions)
+    * [Events](#events)
+        * [Examples](#examples)
+
+<!-- TOC -->
+
 ## Introduction
 
 This is an application to show the usage of the homeautomation framework with Spring Boot.
